@@ -1,0 +1,13 @@
+p n d
+p is prime
+d is prime
+q is primitive
+Irreduciable Polynomial
+sci(x) - i.e. sci(x) mod (x^d -1)
+A - i.e after performing A^order
+Row-Sum is 1
+Is XA/x-1 irreduciable :: True/False
+Determinant of A
+Order of A
+prime facotrs of A
+largerst prime factor of A and log2 of the largest prime factor

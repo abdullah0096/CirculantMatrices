@@ -1,8 +1,8 @@
 import numpy
 
-def PKCS_CM(pStart, pEnd, nStart, nEnd, dStart, dEnd):
-    with open("out_putFiles/PKCS_CM_ALL-" + str(pStart) + "-" + str(pEnd) + "-" + str(nStart) + "-" + str(nEnd) + "-" + str(dStart) + "-" + str(dEnd) + ".txt", 'w') as fp:
-        with open("out_putFiles/PKCS_CM-" + str(pStart) + "-" + str(pEnd) + "-" + str(nStart) + "-" + str(nEnd) + "-" + str(dStart) + "-" + str(dEnd) + ".txt", 'w') as fp1:
+def Five_PKCS_CM(pStart, pEnd, nStart, nEnd, dStart, dEnd):
+    with open("FIVE_out_putFiles/PKCS_CM_ALL-" + str(pStart) + "-" + str(pEnd) + "-" + str(nStart) + "-" + str(nEnd) + "-" + str(dStart) + "-" + str(dEnd) + ".txt", 'w') as fp:
+        with open("FIVE_out_putFiles/PKCS_CM-" + str(pStart) + "-" + str(pEnd) + "-" + str(nStart) + "-" + str(nEnd) + "-" + str(dStart) + "-" + str(dEnd) + ".txt", 'w') as fp1:
             fiveConditionCnt = 0
             iterationCnt = 0
             for p in range(pStart, pEnd):
@@ -10,13 +10,13 @@ def PKCS_CM(pStart, pEnd, nStart, nEnd, dStart, dEnd):
                     for n in range(nStart, nEnd):
                         for d in range(dStart, dEnd):
                             if is_prime(d):
+                                iterationCnt = iterationCnt + 1
                                 if isPrimitive(p ** n, d) == 0:
-                                    print ("\n" + str(p) + "^" + str(d) + " is not primitive mod " + str(d))
-                                    fp.write ("\n\n" + str(p) + "^" + str(d) + " is not primitive mod " + str(d))                                     
+                                    print ("\n" + str(p) + "^" + str(n) + " is not primitive mod " + str(d))
+                                    fp.write ("\n\n" + str(p) + "^" + str(n) + " is not primitive mod " + str(d))                                     
                                     printStars(fp)
                                     continue
                                     
-                                iterationCnt = iterationCnt + 1
                                 print("\n" + str(p) + "  " + str(n) + "  " + str(d))
                                 print("P is Prime")
                                 print("d is Prime")
@@ -150,26 +150,16 @@ def PKCS_CM(pStart, pEnd, nStart, nEnd, dStart, dEnd):
                                     continue
                                 else:
                                     print ("\nDeterminant of A is :: " + str(det_A))
-                                    fp.write ("\nDeterminant of A is :: " + str(det_A))                                    
+                                    fp.write ("\nDeterminant of A is :: " + str(det_A))
                             
                                 # Calculating the Multiplicative order of A
-                                orderOf_A = A.multiplicative_order()
+                                #orderOf_A = A.multiplicative_order()
                                 
-                                print ("\nOrder of A :: " + str(orderOf_A) + "\n")
-                                fp.write ("\nOrder of A :: " + str(orderOf_A) + "\n")
+                                #print ("\nOrder of A :: " + str(orderOf_A) + "\n")
+                                #fp.write ("\nOrder of A :: " + str(orderOf_A) + "\n")
                                 fp1.write(str(p) + "  " + str(n) + "  " + str(d) + "\n")
-                                fp1.write (str(orderOf_A) + "\n")
+                                #fp1.write (str(orderOf_A) + "\n")
                                 
-                                # using ECM to factor order of A
-                                fac = ecm.factor(orderOf_A)
-
-                                print ("Factors of order of A :: " + str(fac))
-                                fp.write ("\n\nFactors of order of A :: " + str(fac))
-                                
-                                size = len(fac)-1;
-                                print("\nLargest Prime Factor :: " + str(fac[size]) + "\t log2 :: " + str(ceil(float(log(fac[size])))))
-                                fp.write("\nLargest Prime Factor :: " + str(fac[size]) + "\t log2 :: " + str(ceil(float(log(fac[size])))))
-                                fp1.write(str(fac[size]) + "\n" + str(ceil(float(log(fac[size])))))
                                 printStars(fp)                                
                                 printStars(fp1)
                                 fiveConditionCnt = fiveConditionCnt + 1
@@ -179,14 +169,16 @@ def PKCS_CM(pStart, pEnd, nStart, nEnd, dStart, dEnd):
             fp.write ("\nTotal Number of instances tested :: " + str(iterationCnt) + "\n")            
             
 
-
 def printStars(fp):
     fp.write("\n***************************************************************************************************\n")
     fp.write("***************************************************************************************************\n")
 
-# This function checks n is primitive mod p where p is a prime
-# If n is primitive mod p then return 1 else return 0
+
 def isPrimitive(n, p):
+    """
+    This function checks n is primitive mod p where p is a prime 
+    If n is primitive mod p then returns 1 else returns 0    
+    """
     isPrimitiveRoot = 1
     N = n % p
     n1 = numpy.array(range(1, p + 1), dtype=int)
